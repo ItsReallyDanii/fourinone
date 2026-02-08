@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "target_schema_v1",
+  "title": "Monitoring Target",
+  "description": "Schema for a status-beacon monitoring target document",
+  "type": "object",
+  "required": ["name", "url", "method", "intervalSeconds", "timeoutMs", "enabled"],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Human-readable target name"
+    },
+    "url": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2048,
+      "format": "uri",
+      "description": "URL to probe"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "HEAD", "POST"],
+      "default": "GET",
+      "description": "HTTP method for the health check"
+    },
+    "intervalSeconds": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 60,
+      "description": "Seconds between checks"
+    },
+    "timeoutMs": {
+      "type": "integer",
+      "minimum": 100,
+      "default": 5000,
+      "description": "Request timeout in milliseconds"
+    },
+    "expectedStatusCode": {
+      "type": "integer",
+      "minimum": 100,
+      "maximum": 599,
+      "default": 200,
+      "description": "Expected HTTP response status code"
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Master on/off switch"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 64
+      },
+      "default": [],
+      "description": "Categorization tags"
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "incident_schema_v1",
+  "title": "Incident",
+  "description": "Schema for a status-beacon incident document",
+  "type": "object",
+  "required": ["targetId", "status", "title", "startedAt"],
+  "additionalProperties": false,
+  "properties": {
+    "targetId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 36,
+      "description": "References targets.$id"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["open", "resolved"],
+      "description": "Current incident status"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "description": "Auto-generated incident title"
+    },
+    "startedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 timestamp when the incident opened"
+    },
+    "resolvedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 timestamp when the incident was resolved"
+    },
+    "checkIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 36
+      },
+      "default": [],
+      "description": "Related check document IDs"
+    }
+  },
+  "if": {
+    "properties": { "status": { "const": "open" } },
+    "required": ["status"]
+  },
+  "then": {
+    "properties": {
+      "resolvedAt": { "not": {} }
+    }
+  }
+}
