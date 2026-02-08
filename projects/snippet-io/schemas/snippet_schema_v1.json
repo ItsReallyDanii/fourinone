@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://snippet-io.example.com/schemas/snippet_schema_v1.json",
+  "title": "Snippet",
+  "description": "Schema for code snippet documents",
+  "type": "object",
+  "required": [
+    "title",
+    "content",
+    "language",
+    "user_id"
+  ],
+  "properties": {
+    "$id": {
+      "type": "string",
+      "description": "Unique identifier (Appwrite document ID)"
+    },
+    "title": {
+      "type": "string",
+      "description": "Snippet title",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "description": {
+      "type": "string",
+      "description": "Optional snippet description",
+      "maxLength": 1000
+    },
+    "content": {
+      "type": "string",
+      "description": "The actual code snippet content",
+      "minLength": 1,
+      "maxLength": 50000
+    },
+    "language": {
+      "type": "string",
+      "description": "Programming language identifier",
+      "minLength": 1,
+      "maxLength": 50,
+      "examples": [
+        "javascript",
+        "python",
+        "java",
+        "go",
+        "rust",
+        "typescript",
+        "bash",
+        "sql"
+      ]
+    },
+    "user_id": {
+      "type": "string",
+      "description": "Owner user ID (Appwrite user ID)"
+    },
+    "tags": {
+      "type": "array",
+      "description": "Associated tags for categorization",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 50
+      },
+      "maxItems": 20,
+      "uniqueItems": true
+    },
+    "is_public": {
+      "type": "boolean",
+      "description": "Whether snippet is publicly accessible",
+      "default": false
+    },
+    "latest_version": {
+      "type": "integer",
+      "description": "Current version number",
+      "minimum": 1,
+      "default": 1
+    },
+    "favorite_count": {
+      "type": "integer",
+      "description": "Number of times favorited by users",
+      "minimum": 0,
+      "default": 0
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Creation timestamp"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last update timestamp"
+    }
+  },
+  "additionalProperties": false
+}
