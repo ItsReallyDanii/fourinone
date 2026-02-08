@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "alert_rule_schema_v1",
+  "title": "Alert Rule",
+  "description": "Schema for a status-beacon alert rule document",
+  "type": "object",
+  "required": ["name", "targetId", "channel", "events", "enabled"],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Human-readable rule name"
+    },
+    "targetId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 36,
+      "description": "Target to watch; '*' means all targets"
+    },
+    "channel": {
+      "type": "string",
+      "enum": ["webhook", "email"],
+      "description": "Notification channel type"
+    },
+    "endpoint": {
+      "type": "string",
+      "maxLength": 2048,
+      "format": "uri",
+      "description": "Webhook URL; required when channel=webhook"
+    },
+    "email": {
+      "type": "string",
+      "maxLength": 256,
+      "format": "email",
+      "description": "Email address; required when channel=email"
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["incident.opened", "incident.resolved"]
+      },
+      "minItems": 1,
+      "description": "Event types that trigger this rule"
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Rule on/off switch"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "channel": { "const": "webhook" } },
+        "required": ["channel"]
+      },
+      "then": {
+        "required": ["endpoint"]
+      }
+    },
+    {
+      "if": {
+        "properties": { "channel": { "const": "email" } },
+        "required": ["channel"]
+      },
+      "then": {
+        "required": ["email"]
+      }
+    }
+  ]
+}

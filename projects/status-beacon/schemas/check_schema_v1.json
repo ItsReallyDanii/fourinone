@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "check_schema_v1",
+  "title": "Health Check",
+  "description": "Schema for a status-beacon health check result document",
+  "type": "object",
+  "required": ["targetId", "status", "latencyMs", "checkedAt"],
+  "additionalProperties": false,
+  "properties": {
+    "targetId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 36,
+      "description": "References targets.$id"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["up", "down", "degraded"],
+      "description": "Result of the health check"
+    },
+    "statusCode": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 999,
+      "description": "HTTP response status code (null if connection failed)"
+    },
+    "latencyMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Response time in milliseconds"
+    },
+    "errorMessage": {
+      "type": "string",
+      "maxLength": 1024,
+      "description": "Error description if check failed"
+    },
+    "checkedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 timestamp of the check"
+    }
+  }
+}
