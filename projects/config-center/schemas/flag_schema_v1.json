@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "flag_schema_v1",
+  "title": "Feature Flag",
+  "description": "Schema for a config-center feature flag document",
+  "type": "object",
+  "required": ["key", "type", "defaultValue", "enabled"],
+  "additionalProperties": false,
+  "properties": {
+    "key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "description": "Unique flag identifier (lowercase slug)"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 512,
+      "default": "",
+      "description": "Human-readable description"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["boolean", "string", "number", "json"],
+      "description": "Data type of the flag value"
+    },
+    "defaultValue": {
+      "description": "Default value returned when no rollout rule matches (JSON-encoded string)",
+      "type": ["boolean", "string", "number", "object", "array"]
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Master on/off switch; disabled flags always return defaultValue"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 64
+      },
+      "default": [],
+      "description": "Categorization tags"
+    }
+  }
+}

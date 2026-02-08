@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "rollout_rule_schema_v1",
+  "title": "Rollout Rule",
+  "description": "Schema for a config-center rollout rule document",
+  "type": "object",
+  "required": ["flagKey", "type", "value", "priority", "enabled"],
+  "additionalProperties": false,
+  "properties": {
+    "flagKey": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "References the key field of a flag document"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["percentage", "user_list", "environment"],
+      "description": "Rule evaluation strategy"
+    },
+    "value": {
+      "description": "Value to return when the rule matches (JSON-encoded string)",
+      "type": ["boolean", "string", "number", "object", "array"]
+    },
+    "percentage": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Rollout percentage (0-100); required when type=percentage"
+    },
+    "userIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 256
+      },
+      "default": [],
+      "description": "Target user IDs; required when type=user_list"
+    },
+    "environment": {
+      "type": "string",
+      "maxLength": 32,
+      "description": "Target environment name; required when type=environment"
+    },
+    "priority": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 0,
+      "description": "Higher number = higher precedence"
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Rule on/off switch"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "type": { "const": "percentage" } },
+        "required": ["type"]
+      },
+      "then": {
+        "required": ["percentage"]
+      }
+    },
+    {
+      "if": {
+        "properties": { "type": { "const": "user_list" } },
+        "required": ["type"]
+      },
+      "then": {
+        "required": ["userIds"],
+        "properties": {
+          "userIds": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "type": { "const": "environment" } },
+        "required": ["type"]
+      },
+      "then": {
+        "required": ["environment"]
+      }
+    }
+  ]
+}
