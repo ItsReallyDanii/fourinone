@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://snippet-io.example.com/schemas/snippet_version_schema_v1.json",
+  "title": "SnippetVersion",
+  "description": "Schema for snippet version history documents",
+  "type": "object",
+  "required": [
+    "snippet_id",
+    "version",
+    "content",
+    "language",
+    "user_id"
+  ],
+  "properties": {
+    "$id": {
+      "type": "string",
+      "description": "Unique identifier (Appwrite document ID)"
+    },
+    "snippet_id": {
+      "type": "string",
+      "description": "Reference to parent snippet document ID"
+    },
+    "version": {
+      "type": "integer",
+      "description": "Version number (sequential, starts at 1)",
+      "minimum": 1
+    },
+    "title": {
+      "type": "string",
+      "description": "Snippet title at this version",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "description": {
+      "type": "string",
+      "description": "Snippet description at this version",
+      "maxLength": 1000
+    },
+    "content": {
+      "type": "string",
+      "description": "Code content at this version",
+      "minLength": 1,
+      "maxLength": 50000
+    },
+    "language": {
+      "type": "string",
+      "description": "Programming language at this version",
+      "minLength": 1,
+      "maxLength": 50
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User who created this version (Appwrite user ID)"
+    },
+    "change_summary": {
+      "type": "string",
+      "description": "Optional description of changes in this version",
+      "maxLength": 500
+    },
+    "tags": {
+      "type": "array",
+      "description": "Tags at this version",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 50
+      },
+      "maxItems": 20,
+      "uniqueItems": true
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Version creation timestamp"
+    }
+  },
+  "additionalProperties": false
+}

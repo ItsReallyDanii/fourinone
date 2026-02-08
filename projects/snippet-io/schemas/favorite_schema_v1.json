@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://snippet-io.example.com/schemas/favorite_schema_v1.json",
+  "title": "Favorite",
+  "description": "Schema for user favorite snippet documents",
+  "type": "object",
+  "required": [
+    "user_id",
+    "snippet_id"
+  ],
+  "properties": {
+    "$id": {
+      "type": "string",
+      "description": "Unique identifier (Appwrite document ID)"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User who favorited the snippet (Appwrite user ID)"
+    },
+    "snippet_id": {
+      "type": "string",
+      "description": "Reference to favorited snippet document ID"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Favorite creation timestamp"
+    }
+  },
+  "additionalProperties": false
+}
