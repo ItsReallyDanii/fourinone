@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "check_schema_v1",
+  "title": "Check",
+  "description": "Schema for health check result",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the check"
+    },
+    "targetId": {
+      "type": "string",
+      "description": "ID of the target being checked"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the check was performed"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["success", "failure", "timeout"],
+      "description": "Check result status"
+    },
+    "responseTime": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Response time in milliseconds"
+    },
+    "statusCode": {
+      "type": "integer",
+      "minimum": 100,
+      "maximum": 599,
+      "description": "HTTP status code"
+    },
+    "errorMessage": {
+      "type": "string",
+      "description": "Error message if check failed"
+    }
+  },
+  "required": ["id", "targetId", "timestamp", "status"],
+  "additionalProperties": false
+}

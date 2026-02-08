@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "incident_schema_v1",
+  "title": "Incident",
+  "description": "Schema for incident tracking",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the incident"
+    },
+    "targetId": {
+      "type": "string",
+      "description": "ID of the affected target"
+    },
+    "state": {
+      "type": "string",
+      "enum": ["open", "acknowledged", "resolved"],
+      "description": "Current state of the incident"
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["critical", "high", "medium", "low"],
+      "description": "Incident severity level"
+    },
+    "startedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the incident started"
+    },
+    "resolvedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the incident was resolved"
+    },
+    "failureCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of consecutive failures"
+    },
+    "description": {
+      "type": "string",
+      "description": "Incident description"
+    }
+  },
+  "required": ["id", "targetId", "state", "severity", "startedAt"],
+  "additionalProperties": false
+}

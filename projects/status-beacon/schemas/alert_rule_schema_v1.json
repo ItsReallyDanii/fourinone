@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "alert_rule_schema_v1",
+  "title": "AlertRule",
+  "description": "Schema for alert notification rules",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the alert rule"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name for the rule"
+    },
+    "targetId": {
+      "type": "string",
+      "description": "ID of the target to monitor (optional, null for global rules)"
+    },
+    "channels": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["email", "slack", "webhook"]
+      },
+      "minItems": 1,
+      "description": "Notification channels"
+    },
+    "conditions": {
+      "type": "object",
+      "properties": {
+        "minFailures": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Minimum consecutive failures to trigger"
+        },
+        "severities": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["critical", "high", "medium", "low"]
+          },
+          "description": "Severity levels that trigger this rule"
+        }
+      },
+      "required": ["minFailures"],
+      "additionalProperties": false
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether the rule is active"
+    }
+  },
+  "required": ["id", "name", "channels", "conditions"],
+  "additionalProperties": false
+}
