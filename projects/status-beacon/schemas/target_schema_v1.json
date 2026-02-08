@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "target_schema_v1",
+  "title": "Target",
+  "description": "Schema for monitoring target configuration",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the target"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name for the target"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to monitor"
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST", "HEAD"],
+      "default": "GET",
+      "description": "HTTP method to use for check"
+    },
+    "interval": {
+      "type": "integer",
+      "minimum": 60,
+      "description": "Check interval in seconds"
+    },
+    "timeout": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 300,
+      "default": 30,
+      "description": "Request timeout in seconds"
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether the target is actively monitored"
+    }
+  },
+  "required": ["id", "name", "url", "interval"],
+  "additionalProperties": false
+}
